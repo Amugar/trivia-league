@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trivia League - The Dozen Style</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Trivia League</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         :root {
@@ -31,471 +32,120 @@
             min-height: 100vh;
         }
 
-        .stars {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: twinkle 3s infinite;
-        }
-
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
-        }
-
         .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1800px;
-            margin: 0 auto;
-            padding: 20px;
+            width: 100%;
+            padding: 10px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            animation: slideDown 0.8s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            padding: 15px 0;
         }
 
         .logo {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 4rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink), var(--accent-yellow));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(139, 49, 201, 0.5);
-            margin-bottom: 10px;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 3px;
         }
 
         /* Setup Screen */
         .setup-screen {
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 700px;
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 500px;
             margin: 0 auto;
             border: 2px solid var(--primary-purple);
-            box-shadow: 0 20px 60px rgba(139, 49, 201, 0.3);
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
         }
 
         .setup-screen h2 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
+            font-size: 2rem;
+            margin-bottom: 20px;
             color: var(--primary-green);
             text-align: center;
             letter-spacing: 2px;
         }
 
         .input-group {
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-dim);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         input[type="text"], input[type="number"], select {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             background: var(--dark-bg);
             border: 2px solid var(--primary-purple);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--text-light);
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-family: 'Barlow Condensed', sans-serif;
-            transition: all 0.3s ease;
         }
 
-        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+        input:focus, select:focus {
             outline: none;
             border-color: var(--primary-pink);
-            box-shadow: 0 0 20px rgba(233, 30, 140, 0.4);
-        }
-
-        select {
-            cursor: pointer;
         }
 
         .role-select {
-            display: flex;
-            gap: 15px;
-            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
         }
 
         .role-btn {
-            flex: 1;
-            padding: 15px;
+            padding: 12px;
             background: var(--dark-bg);
             border: 2px solid var(--primary-purple);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--text-light);
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .role-btn:hover {
-            background: var(--primary-purple);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(139, 49, 201, 0.4);
         }
 
         .role-btn.active {
             background: var(--primary-pink);
             border-color: var(--primary-pink);
-            box-shadow: 0 0 20px rgba(233, 30, 140, 0.6);
-        }
-
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .category-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            background: var(--dark-bg);
-            border: 2px solid var(--primary-purple);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .category-checkbox:hover {
-            border-color: var(--primary-pink);
-        }
-
-        .category-checkbox.selected {
-            background: var(--primary-purple);
-            border-color: var(--primary-green);
-        }
-
-        .category-checkbox input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-
-        .category-checkbox label {
-            margin: 0;
-            font-size: 1rem;
-            cursor: pointer;
-            text-transform: none;
-            letter-spacing: normal;
         }
 
         .btn-primary {
             width: 100%;
-            padding: 18px;
+            padding: 15px;
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--text-light);
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 20px;
-            font-family: 'Bebas Neue', sans-serif;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(233, 30, 140, 0.5);
-        }
-
-        .btn-primary:active {
-            transform: translateY(-1px);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .join-info {
-            padding: 20px;
-            background: var(--dark-bg);
-            border-radius: 10px;
-            margin-top: 25px;
-            border: 3px solid var(--primary-green);
-            animation: glow 2s ease-in-out infinite;
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 65, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(0, 255, 65, 0.6); }
-        }
-
-        .join-info h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            color: var(--primary-green);
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-            text-align: center;
-        }
-
-        .join-code-display {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3rem;
-            color: var(--accent-yellow);
-            text-align: center;
-            margin: 20px 0;
-            padding: 20px;
-            background: var(--card-bg);
-            border-radius: 10px;
-            border: 2px solid var(--accent-yellow);
-            letter-spacing: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .join-code-display:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-        }
-
-        .share-link {
-            font-family: 'Inter', monospace;
-            font-size: 0.85rem;
-            color: var(--text-light);
-            word-break: break-all;
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            border: 2px solid var(--primary-purple);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .share-link:hover {
-            border-color: var(--primary-pink);
-            box-shadow: 0 0 15px rgba(233, 30, 140, 0.4);
-        }
-
-        .copy-hint {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .player-count {
-            text-align: center;
             margin-top: 15px;
-            font-size: 1.3rem;
-            color: var(--accent-yellow);
-            font-weight: 600;
-        }
-
-        .waiting-screen {
-            text-align: center;
-            padding: 40px;
-        }
-
-        .waiting-screen h3 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
+        }
+
+        .waiting-msg {
+            text-align: center;
+            padding: 20px;
             color: var(--primary-green);
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-        }
-
-        .spinner {
-            width: 60px;
-            height: 60px;
-            border: 5px solid var(--card-bg);
-            border-top: 5px solid var(--primary-green);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 30px auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Lobby Screen */
-        .lobby-screen {
-            display: none;
-        }
-
-        .lobby-container {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
-            border: 2px solid var(--accent-yellow);
-            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
-        }
-
-        .lobby-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .lobby-header h2 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 3rem;
-            color: var(--accent-yellow);
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-        }
-
-        .lobby-teams {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 30px;
-        }
-
-        .team-lobby {
-            background: var(--dark-bg);
-            border-radius: 15px;
-            padding: 25px;
-            border: 3px solid var(--primary-pink);
-        }
-
-        .team-lobby.team-right {
-            border-color: var(--primary-green);
-        }
-
-        .team-lobby h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-align: center;
-            letter-spacing: 2px;
-        }
-
-        .team-lobby.team-left h3 {
-            color: var(--primary-pink);
-        }
-
-        .team-lobby.team-right h3 {
-            color: var(--primary-green);
-        }
-
-        .player-slot {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            border: 2px solid var(--primary-purple);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .player-slot.filled {
-            border-color: var(--primary-green);
-            background: linear-gradient(135deg, var(--card-bg), rgba(0, 255, 65, 0.1));
-        }
-
-        .player-slot.empty {
-            opacity: 0.5;
-            border-style: dashed;
-        }
-
-        .player-name-lobby {
-            font-size: 1.2rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .move-btn {
-            padding: 8px 15px;
-            background: var(--primary-purple);
-            border: none;
-            border-radius: 6px;
-            color: var(--text-light);
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-        }
-
-        .move-btn:hover {
-            background: var(--primary-pink);
-            transform: translateY(-2px);
-        }
-
-        .unassigned-players {
-            background: var(--dark-bg);
-            border-radius: 15px;
-            padding: 25px;
-            border: 3px dashed var(--text-dim);
-            margin-bottom: 30px;
-        }
-
-        .unassigned-players h3 {
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--text-dim);
-            text-align: center;
-            letter-spacing: 2px;
+            font-size: 1.1rem;
         }
 
         /* Game Screen */
@@ -503,51 +153,56 @@
             display: none;
         }
 
+        /* Mobile-First Layout */
         .game-layout {
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .team-section {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
 
-        .team-header {
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-            padding: 15px;
+        .score-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: var(--card-bg);
             border-radius: 10px;
-            text-align: center;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 1.8rem;
-            letter-spacing: 2px;
-            box-shadow: 0 5px 20px rgba(139, 49, 201, 0.4);
+            font-size: 1.5rem;
         }
 
-        .team-header.team-left {
-            background: linear-gradient(135deg, var(--primary-pink), #FF1493);
+        .team-score {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .team-header.team-right {
-            background: linear-gradient(135deg, var(--primary-green), #00CC33);
+        .team-score.left {
+            color: var(--primary-pink);
+        }
+
+        .team-score.right {
+            color: var(--primary-green);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
         }
 
         .video-container {
             position: relative;
             background: var(--card-bg);
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden;
-            border: 3px solid var(--primary-purple);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            aspect-ratio: 4/3;
+            border: 2px solid var(--primary-purple);
+            aspect-ratio: 1;
         }
 
-        .video-container.host-video {
-            border-color: var(--accent-yellow);
+        .video-container.host {
+            grid-column: 1 / -1;
             aspect-ratio: 16/9;
+            border-color: var(--accent-yellow);
         }
 
         .video-container.team-left {
@@ -566,18 +221,7 @@
                 var(--dark-bg) 10px,
                 var(--dark-bg) 20px
             );
-            opacity: 0.5;
-        }
-
-        .empty-label {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            opacity: 0.4;
         }
 
         video {
@@ -588,114 +232,214 @@
 
         .player-name {
             position: absolute;
-            bottom: 8px;
-            left: 8px;
+            bottom: 4px;
+            left: 4px;
             background: rgba(0, 0, 0, 0.8);
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 3px 8px;
+            border-radius: 4px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        .center-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .empty-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-align: center;
+            padding: 5px;
         }
 
-        /* Question Board */
         .question-board {
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 40px;
+            border-radius: 12px;
+            padding: 20px;
             border: 3px solid var(--primary-green);
-            box-shadow: 0 20px 60px rgba(0, 255, 65, 0.2);
-            min-height: 350px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            margin: 10px 0;
         }
 
         .category-banner {
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-pink));
-            padding: 15px 40px;
-            border-radius: 10px;
-            margin-bottom: 30px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            box-shadow: 0 5px 20px rgba(233, 30, 140, 0.4);
-            max-width: 100%;
+            font-size: 1.3rem;
+            letter-spacing: 2px;
             text-align: center;
+            text-transform: uppercase;
         }
 
         .question-text {
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             text-align: center;
-            line-height: 1.4;
-            margin-bottom: 30px;
+            line-height: 1.3;
+            margin-bottom: 15px;
             font-weight: 600;
+            min-height: 60px;
         }
 
         .timer {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 4rem;
+            font-size: 3rem;
             color: var(--accent-yellow);
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+            text-align: center;
         }
 
         /* Host Controls */
         .host-controls {
             background: var(--card-bg);
-            border-radius: 20px;
-            padding: 30px;
+            border-radius: 12px;
+            padding: 15px;
             border: 2px solid var(--accent-yellow);
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .host-controls h3 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
             color: var(--accent-yellow);
-            letter-spacing: 2px;
+        }
+
+        .qr-section {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .qr-section canvas {
+            max-width: 200px;
+            height: auto;
+        }
+
+        .qr-hint {
+            color: var(--dark-bg);
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .player-assignment {
+            background: var(--dark-bg);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .player-assignment h4 {
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .unassigned-player {
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid var(--text-dim);
+        }
+
+        .player-assignment-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .assign-btns {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-assign {
+            padding: 6px 12px;
+            background: var(--primary-purple);
+            border: none;
+            border-radius: 5px;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn-assign:active {
+            transform: scale(0.95);
+        }
+
+        .question-queue {
+            margin-bottom: 15px;
+        }
+
+        .question-queue h4 {
+            color: var(--primary-pink);
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .queued-question {
+            background: var(--dark-bg);
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            border-left: 3px solid var(--primary-green);
+        }
+
+        .queued-category {
+            font-weight: 700;
+            color: var(--primary-green);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .queued-text {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            background: var(--dark-bg);
+            border: 2px solid var(--primary-purple);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-family: 'Barlow Condensed', sans-serif;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: 10px;
         }
 
         .control-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .control-row.full {
+            grid-template-columns: 1fr;
         }
 
         .btn-secondary {
-            padding: 12px 25px;
+            padding: 10px;
             background: var(--primary-purple);
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             color: var(--text-light);
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
             text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-secondary:hover {
-            background: var(--primary-pink);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(233, 30, 140, 0.4);
         }
 
         .btn-success {
@@ -703,81 +447,69 @@
             color: var(--dark-bg);
         }
 
-        .btn-success:hover {
-            background: #00CC33;
-        }
+        /* Desktop Layout */
+        @media (min-width: 768px) {
+            .logo {
+                font-size: 4rem;
+            }
 
-        textarea {
-            width: 100%;
-            padding: 15px;
-            background: var(--dark-bg);
-            border: 2px solid var(--primary-purple);
-            border-radius: 10px;
-            color: var(--text-light);
-            font-size: 1rem;
-            font-family: 'Barlow Condensed', sans-serif;
-            resize: vertical;
-            min-height: 100px;
-            margin-bottom: 15px;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary-pink);
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        @media (max-width: 1400px) {
             .game-layout {
-                grid-template-columns: 1fr;
-            }
-            
-            .lobby-teams {
-                grid-template-columns: 1fr;
+                display: grid;
+                grid-template-columns: 1fr 2fr 1fr;
+                gap: 15px;
             }
 
-            .logo {
-                font-size: 3rem;
+            .score-header {
+                grid-column: 1 / -1;
+                font-size: 2rem;
+                padding: 15px 25px;
+            }
+
+            .video-grid.left,
+            .video-grid.right {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .video-grid.center {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .video-container {
+                aspect-ratio: 4/3;
+            }
+
+            .video-container.host {
+                aspect-ratio: 16/9;
+            }
+
+            .player-name {
+                font-size: 0.9rem;
+                padding: 5px 10px;
             }
 
             .question-text {
-                font-size: 1.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .logo {
-                font-size: 2.5rem;
+                font-size: 1.8rem;
+                min-height: auto;
             }
 
-            .question-text {
-                font-size: 1.3rem;
+            .timer {
+                font-size: 4rem;
             }
 
-            .setup-screen, .lobby-container {
-                padding: 25px;
-            }
-
-            .category-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .share-link {
-                font-size: 0.7rem;
+            .control-row {
+                grid-template-columns: repeat(4, 1fr);
             }
         }
     </style>
 </head>
 <body>
-    <div class="stars" id="stars"></div>
-    
     <div class="container">
         <div class="header">
             <h1 class="logo">TRIVIA LEAGUE</h1>
-            <p class="tagline">Powered by Your Brain</p>
         </div>
 
         <!-- Setup Screen -->
@@ -798,79 +530,34 @@
             <div id="hostSetup">
                 <div class="input-group">
                     <label>Your Name</label>
-                    <input type="text" id="hostName" placeholder="e.g., Mike">
+                    <input type="text" id="hostName" placeholder="Enter your name">
                 </div>
 
                 <div class="input-group">
                     <label>Team 1 Name</label>
-                    <input type="text" id="team1Name" placeholder="e.g., The Champions" value="Team 1">
+                    <input type="text" id="team1Name" placeholder="Team 1" value="Team 1">
                 </div>
 
                 <div class="input-group">
                     <label>Team 2 Name</label>
-                    <input type="text" id="team2Name" placeholder="e.g., The Challengers" value="Team 2">
+                    <input type="text" id="team2Name" placeholder="Team 2" value="Team 2">
+                </div>
+
+                <div class="input-group">
+                    <label>Players Per Team</label>
+                    <select id="playersPerTeam">
+                        <option value="1">1 Player</option>
+                        <option value="2">2 Players</option>
+                        <option value="3" selected>3 Players</option>
+                    </select>
                 </div>
 
                 <div class="input-group">
                     <label>Number of Questions</label>
-                    <input type="number" id="numQuestions" min="5" max="50" value="20">
-                </div>
-
-                <div class="input-group">
-                    <label>Select Categories</label>
-                    <div class="category-grid" id="categoryGrid">
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>NBA</label>
-                        </div>
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>NFL</label>
-                        </div>
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>MLB</label>
-                        </div>
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>College Football</label>
-                        </div>
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>History</label>
-                        </div>
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>Geography</label>
-                        </div>
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>Celebrity Mashup</label>
-                        </div>
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>Music</label>
-                        </div>
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>Movies & TV</label>
-                        </div>
-                        <div class="category-checkbox selected" onclick="toggleCategory(this)">
-                            <input type="checkbox" checked>
-                            <label>General Sports</label>
-                        </div>
-                    </div>
+                    <input type="number" id="numQuestions" min="5" max="50" value="12">
                 </div>
 
                 <button class="btn-primary" id="createGameBtn">Create Game</button>
-
-                <div class="join-info" id="hostJoinInfo" style="display: none;">
-                    <h3>🎮 SHARE THIS LINK WITH PLAYERS</h3>
-                    <div class="share-link" id="shareLinkDisplay" onclick="copyShareLink()">Generating link...</div>
-                    <div class="copy-hint">📋 Click to copy • Players use this link to join instantly!</div>
-                    <div class="player-count" id="hostPlayerCount">Players Connected: 0/6</div>
-                    <button class="btn-primary" id="goToLobbyBtn" style="margin-top: 20px;">GO TO LOBBY</button>
-                </div>
             </div>
 
             <!-- Player Join -->
@@ -882,117 +569,76 @@
 
                 <button class="btn-primary" id="joinGameBtn">Join Game</button>
 
-                <div class="waiting-screen" id="playerWaiting" style="display: none;">
-                    <h3>CONNECTING TO HOST...</h3>
-                    <div class="spinner"></div>
-                    <p style="color: var(--text-dim); margin-top: 20px;">Please wait while we connect you to the game</p>
+                <div class="waiting-msg" id="playerWaiting" style="display: none;">
+                    Waiting for host to assign you to a team...
                 </div>
-            </div>
-        </div>
-
-        <!-- Lobby Screen -->
-        <div class="lobby-screen" id="lobbyScreen">
-            <div class="lobby-container">
-                <div class="lobby-header">
-                    <h2>GAME LOBBY</h2>
-                    <p style="font-size: 1.2rem; color: var(--text-dim);">Assign players to teams</p>
-                </div>
-
-                <div class="unassigned-players" id="unassignedSection">
-                    <h3>Unassigned Players</h3>
-                    <div id="unassignedList"></div>
-                </div>
-
-                <div class="lobby-teams">
-                    <div class="team-lobby team-left">
-                        <h3 id="lobbyTeam1Name">TEAM 1</h3>
-                        <div id="team1Slots">
-                            <div class="player-slot empty">
-                                <span class="player-name-lobby">Empty Slot 1</span>
-                            </div>
-                            <div class="player-slot empty">
-                                <span class="player-name-lobby">Empty Slot 2</span>
-                            </div>
-                            <div class="player-slot empty">
-                                <span class="player-name-lobby">Empty Slot 3</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="team-lobby team-right">
-                        <h3 id="lobbyTeam2Name">TEAM 2</h3>
-                        <div id="team2Slots">
-                            <div class="player-slot empty">
-                                <span class="player-name-lobby">Empty Slot 4</span>
-                            </div>
-                            <div class="player-slot empty">
-                                <span class="player-name-lobby">Empty Slot 5</span>
-                            </div>
-                            <div class="player-slot empty">
-                                <span class="player-name-lobby">Empty Slot 6</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn-primary" id="startGameBtn">START GAME</button>
             </div>
         </div>
 
         <!-- Game Screen -->
         <div class="game-screen" id="gameScreen">
             <div class="game-layout">
-                <!-- Team Left -->
-                <div class="team-section">
-                    <div class="team-header team-left"><span id="gameTeam1Name">TEAM 1</span> - <span id="team1ScoreHeader">0</span></div>
-                    <div class="video-container team-left empty">
-                        <video id="video1" autoplay playsinline></video>
-                        <div class="player-name" id="name1">Slot 1</div>
-                        <div class="empty-label" id="empty1">WAITING FOR PLAYER</div>
+                <!-- Score Header -->
+                <div class="score-header">
+                    <div class="team-score left">
+                        <span id="team1NameDisplay">TEAM 1</span>
+                        <span id="team1ScoreDisplay">0</span>
                     </div>
-                    <div class="video-container team-left empty">
-                        <video id="video2" autoplay playsinline></video>
-                        <div class="player-name" id="name2">Slot 2</div>
-                        <div class="empty-label" id="empty2">WAITING FOR PLAYER</div>
-                    </div>
-                    <div class="video-container team-left empty">
-                        <video id="video3" autoplay playsinline></video>
-                        <div class="player-name" id="name3">Slot 3</div>
-                        <div class="empty-label" id="empty3">WAITING FOR PLAYER</div>
+                    <div class="team-score right">
+                        <span id="team2ScoreDisplay">0</span>
+                        <span id="team2NameDisplay">TEAM 2</span>
                     </div>
                 </div>
 
-                <!-- Center - Host and Question Board -->
-                <div class="center-section">
-                    <div class="video-container host-video">
+                <!-- Team 1 Videos -->
+                <div class="video-grid left" id="team1Videos">
+                    <div class="video-container team-left empty">
+                        <video id="video1" autoplay playsinline></video>
+                        <div class="player-name" id="name1" style="display:none;"></div>
+                        <div class="empty-label" id="empty1">WAITING</div>
+                    </div>
+                    <div class="video-container team-left empty">
+                        <video id="video2" autoplay playsinline></video>
+                        <div class="player-name" id="name2" style="display:none;"></div>
+                        <div class="empty-label" id="empty2">WAITING</div>
+                    </div>
+                    <div class="video-container team-left empty">
+                        <video id="video3" autoplay playsinline></video>
+                        <div class="player-name" id="name3" style="display:none;"></div>
+                        <div class="empty-label" id="empty3">WAITING</div>
+                    </div>
+                </div>
+
+                <!-- Center: Host + Question Board -->
+                <div class="video-grid center">
+                    <div class="video-container host">
                         <video id="videoHost" autoplay playsinline muted></video>
                         <div class="player-name" id="nameHost">Host</div>
                     </div>
-                    
+
                     <div class="question-board">
                         <div class="category-banner" id="categoryDisplay">WAITING TO START</div>
-                        <div class="question-text" id="questionDisplay">Get ready for an epic trivia battle!</div>
+                        <div class="question-text" id="questionDisplay">Ready for trivia?</div>
                         <div class="timer" id="timerDisplay"></div>
                     </div>
                 </div>
 
-                <!-- Team Right -->
-                <div class="team-section">
-                    <div class="team-header team-right"><span id="gameTeam2Name">TEAM 2</span> - <span id="team2ScoreHeader">0</span></div>
+                <!-- Team 2 Videos -->
+                <div class="video-grid right" id="team2Videos">
                     <div class="video-container team-right empty">
                         <video id="video4" autoplay playsinline></video>
-                        <div class="player-name" id="name4">Slot 4</div>
-                        <div class="empty-label" id="empty4">WAITING FOR PLAYER</div>
+                        <div class="player-name" id="name4" style="display:none;"></div>
+                        <div class="empty-label" id="empty4">WAITING</div>
                     </div>
                     <div class="video-container team-right empty">
                         <video id="video5" autoplay playsinline></video>
-                        <div class="player-name" id="name5">Slot 5</div>
-                        <div class="empty-label" id="empty5">WAITING FOR PLAYER</div>
+                        <div class="player-name" id="name5" style="display:none;"></div>
+                        <div class="empty-label" id="empty5">WAITING</div>
                     </div>
                     <div class="video-container team-right empty">
                         <video id="video6" autoplay playsinline></video>
-                        <div class="player-name" id="name6">Slot 6</div>
-                        <div class="empty-label" id="empty6">WAITING FOR PLAYER</div>
+                        <div class="player-name" id="name6" style="display:none;"></div>
+                        <div class="empty-label" id="empty6">WAITING</div>
                     </div>
                 </div>
             </div>
@@ -1000,23 +646,49 @@
             <!-- Host Controls -->
             <div class="host-controls" id="hostControls" style="display: none;">
                 <h3>🎮 Host Controls</h3>
-                
+
+                <!-- QR Code -->
+                <div class="qr-section" id="qrSection">
+                    <canvas id="qrCanvas"></canvas>
+                    <div class="qr-hint">Scan to join game</div>
+                </div>
+
+                <!-- Player Assignment -->
+                <div class="player-assignment" id="playerAssignment">
+                    <h4>Unassigned Players (<span id="unassignedCount">0</span>)</h4>
+                    <div id="unassignedList"></div>
+                </div>
+
+                <!-- Question Queue -->
+                <div class="question-queue">
+                    <h4>Question Queue (<span id="queueCount">0</span>)</h4>
+                    <div id="queuedQuestions"></div>
+                </div>
+
+                <!-- Add Question -->
                 <div class="input-group">
                     <label>Category</label>
-                    <select id="categorySelect"></select>
+                    <input type="text" id="categoryInput" placeholder="e.g., NBA, Movies">
                 </div>
 
                 <div class="input-group">
                     <label>Question</label>
-                    <textarea id="questionInput" placeholder="Enter your trivia question here..."></textarea>
+                    <textarea id="questionInput" placeholder="Enter trivia question..."></textarea>
                 </div>
 
+                <div class="control-row full">
+                    <button class="btn-secondary btn-success" id="addToQueueBtn">Add to Queue</button>
+                </div>
+
+                <!-- Game Controls -->
                 <div class="control-row">
-                    <button class="btn-secondary btn-success" id="showQuestionBtn">Show Question</button>
-                    <button class="btn-secondary" id="startTimerBtn">Start Timer (30s)</button>
-                    <button class="btn-secondary" id="clearQuestionBtn">Clear Question</button>
+                    <button class="btn-secondary btn-success" id="nextQuestionBtn">Next Question</button>
+                    <button class="btn-secondary" id="startTimerBtn">Timer (30s)</button>
+                    <button class="btn-secondary" id="clearQuestionBtn">Clear</button>
+                    <button class="btn-secondary" id="revealAnswerBtn">Reveal</button>
                 </div>
 
+                <!-- Scoring -->
                 <div class="control-row">
                     <button class="btn-secondary btn-success" id="team1PointBtn">Team 1 +1</button>
                     <button class="btn-secondary" id="team1MinusBtn">Team 1 -1</button>
@@ -1029,51 +701,40 @@
 
     <!-- PeerJS Library -->
     <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 
     <script>
-        // Create stars background
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 100; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 3 + 's';
-            starsContainer.appendChild(star);
-        }
-
-        // Game Configuration
-        let gameConfig = {
-            hostName: '',
-            team1Name: 'Team 1',
-            team2Name: 'Team 2',
-            numQuestions: 20,
-            categories: []
-        };
-
         // Game State
         let peer;
         let myStream;
         let connections = [];
-        let playerData = {}; // { peerId: { name, stream, conn } }
+        let playerData = {}; // { peerId: { name, stream, conn, team, slot } }
         let isHost = false;
-        let hostPeerId = '';
+        let questionQueue = [];
+        let currentQuestionIndex = -1;
+        let gameConfig = {
+            hostName: '',
+            team1Name: 'Team 1',
+            team2Name: 'Team 2',
+            playersPerTeam: 3,
+            numQuestions: 12
+        };
         let gameState = {
             category: '',
             question: '',
+            answer: '',
             team1Score: 0,
             team2Score: 0,
             timerActive: false,
             timerValue: 30,
-            teamAssignments: {} // { peerId: slotNumber }
+            teamAssignments: {}
         };
 
-        // Check URL parameters for auto-join
+        // Check URL for auto-join
         const urlParams = new URLSearchParams(window.location.search);
-        const urlHostId = urlParams.get('host');
-        const urlHostName = urlParams.get('name');
+        const urlHostId = urlParams.get('h');
 
-        // If URL has host parameter, auto-switch to player mode
         if (urlHostId) {
             document.getElementById('playerBtn').click();
         }
@@ -1095,14 +756,7 @@
             isHost = false;
         });
 
-        // Category toggle
-        function toggleCategory(element) {
-            const checkbox = element.querySelector('input[type="checkbox"]');
-            checkbox.checked = !checkbox.checked;
-            element.classList.toggle('selected');
-        }
-
-        // Create Game (Host)
+        // Create Game
         document.getElementById('createGameBtn').addEventListener('click', async () => {
             const hostName = document.getElementById('hostName').value.trim();
             if (!hostName) {
@@ -1110,449 +764,247 @@
                 return;
             }
 
-            // Collect game config
             gameConfig.hostName = hostName;
             gameConfig.team1Name = document.getElementById('team1Name').value.trim() || 'Team 1';
             gameConfig.team2Name = document.getElementById('team2Name').value.trim() || 'Team 2';
-            gameConfig.numQuestions = parseInt(document.getElementById('numQuestions').value) || 20;
-            
-            // Collect selected categories
-            gameConfig.categories = [];
-            document.querySelectorAll('.category-checkbox.selected label').forEach(label => {
-                gameConfig.categories.push(label.textContent);
-            });
+            gameConfig.playersPerTeam = parseInt(document.getElementById('playersPerTeam').value);
+            gameConfig.numQuestions = parseInt(document.getElementById('numQuestions').value) || 12;
 
-            if (gameConfig.categories.length === 0) {
-                alert('Please select at least one category!');
-                return;
-            }
-
-            // Get user media
+            // Get media
             try {
-                myStream = await navigator.mediaDevices.getUserMedia({ 
-                    video: true, 
-                    audio: true 
-                });
+                myStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             } catch (err) {
-                console.error('Error accessing media devices:', err);
-                alert('Could not access camera/microphone. Please check permissions.');
+                alert('Could not access camera/microphone.');
                 return;
             }
 
-            // Initialize PeerJS
+            // Initialize peer
             peer = new Peer();
 
             peer.on('open', (id) => {
-                hostPeerId = id;
-                
-                // Generate shareable link
-                const shareLink = `${window.location.origin}${window.location.pathname}?host=${id}&name=${encodeURIComponent(hostName)}`;
-                document.getElementById('shareLinkDisplay').textContent = shareLink;
-                
-                document.getElementById('hostJoinInfo').style.display = 'block';
-                document.getElementById('createGameBtn').style.display = 'none';
-                
-                document.getElementById('nameHost').textContent = hostName;
-                
-                console.log('Host peer ID:', id);
+                setupHostGame(id);
             });
 
-            peer.on('connection', (conn) => {
-                console.log('Incoming connection from:', conn.peer);
-                handlePlayerConnection(conn);
-            });
-
-            peer.on('call', (call) => {
-                console.log('Incoming call from:', call.peer);
-                call.answer(myStream);
-                call.on('stream', (remoteStream) => {
-                    console.log('Received stream from:', call.peer);
-                    const metadata = call.metadata;
-                    if (metadata && metadata.peerId) {
-                        if (!playerData[metadata.peerId]) {
-                            playerData[metadata.peerId] = {};
-                        }
-                        playerData[metadata.peerId].stream = remoteStream;
-                        playerData[metadata.peerId].name = metadata.playerName;
-                        updatePlayerCount();
-                    }
-                });
-            });
-
-            peer.on('error', (err) => {
-                console.error('Peer error:', err);
-                alert('Connection error: ' + err.type);
-            });
+            peer.on('connection', handlePlayerConnection);
+            peer.on('call', handleIncomingCall);
         });
 
-        // Copy shareable link
-        function copyShareLink() {
-            const link = document.getElementById('shareLinkDisplay').textContent;
-            navigator.clipboard.writeText(link).then(() => {
-                const original = document.getElementById('shareLinkDisplay').textContent;
-                document.getElementById('shareLinkDisplay').textContent = '✓ COPIED!';
-                setTimeout(() => {
-                    document.getElementById('shareLinkDisplay').textContent = original;
-                }, 2000);
-            });
+        function setupHostGame(peerId) {
+            // Generate QR code
+            const joinUrl = `${window.location.origin}${window.location.pathname}?h=${peerId}`;
+            QRCode.toCanvas(document.getElementById('qrCanvas'), joinUrl, { width: 200 });
+
+            // Show game screen
+            document.getElementById('setupScreen').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'block';
+            document.getElementById('hostControls').style.display = 'block';
+
+            // Set host video and name
+            document.getElementById('videoHost').srcObject = myStream;
+            document.getElementById('nameHost').textContent = gameConfig.hostName;
+
+            // Set team names
+            document.getElementById('team1NameDisplay').textContent = gameConfig.team1Name.toUpperCase();
+            document.getElementById('team2NameDisplay').textContent = gameConfig.team2Name.toUpperCase();
+
+            // Hide extra slots based on playersPerTeam
+            hideExtraSlots();
+
+            setupHostControls();
         }
 
-        // Handle player connections (host side)
+        function hideExtraSlots() {
+            for (let i = gameConfig.playersPerTeam + 1; i <= 3; i++) {
+                document.getElementById(`video${i}`).parentElement.style.display = 'none';
+                document.getElementById(`video${i + 3}`).parentElement.style.display = 'none';
+            }
+        }
+
         function handlePlayerConnection(conn) {
             connections.push(conn);
-            
+
             conn.on('open', () => {
-                console.log('Connection opened with:', conn.peer);
                 const metadata = conn.metadata;
                 if (metadata) {
                     playerData[conn.peer] = {
                         name: metadata.playerName,
                         conn: conn,
                         team: null,
+                        slot: null,
                         stream: null
                     };
-                    
-                    updatePlayerCount();
-                    
-                    // Send game config to player
-                    conn.send({
-                        type: 'gameConfig',
-                        config: gameConfig
-                    });
-                    
-                    console.log('Player added:', metadata.playerName);
+                    updateUnassignedList();
                 }
             });
 
-            conn.on('data', (data) => {
-                handleMessage(data, conn.peer);
-            });
-
+            conn.on('data', (data) => handleMessage(data, conn.peer));
             conn.on('close', () => {
-                console.log('Player disconnected:', conn.peer);
                 delete playerData[conn.peer];
-                updatePlayerCount();
-                updateLobby();
-            });
-
-            conn.on('error', (err) => {
-                console.error('Connection error with player:', err);
+                updateUnassignedList();
             });
         }
 
-        function updatePlayerCount() {
-            const count = Object.keys(playerData).length;
-            document.getElementById('hostPlayerCount').textContent = `Players Connected: ${count}/6`;
-            console.log('Player count updated:', count);
+        function handleIncomingCall(call) {
+            call.answer(myStream);
+            call.on('stream', (remoteStream) => {
+                const peerId = call.metadata?.peerId;
+                if (peerId && playerData[peerId]) {
+                    playerData[peerId].stream = remoteStream;
+                    if (playerData[peerId].slot) {
+                        assignVideoStream(playerData[peerId].slot, remoteStream, playerData[peerId].name);
+                    }
+                }
+            });
+        }
+
+        function updateUnassignedList() {
+            const list = document.getElementById('unassignedList');
+            list.innerHTML = '';
+            let count = 0;
+
+            Object.keys(playerData).forEach(peerId => {
+                const player = playerData[peerId];
+                if (!player.team) {
+                    count++;
+                    const div = document.createElement('div');
+                    div.className = 'unassigned-player';
+                    div.innerHTML = `
+                        <span class="player-assignment-name">${player.name}</span>
+                        <div class="assign-btns">
+                            <button class="btn-assign" onclick="assignPlayer('${peerId}', 1)">T1</button>
+                            <button class="btn-assign" onclick="assignPlayer('${peerId}', 2)">T2</button>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                }
+            });
+
+            document.getElementById('unassignedCount').textContent = count;
+            if (count === 0) {
+                list.innerHTML = '<div style="text-align:center;color:var(--text-dim);padding:10px;">All assigned!</div>';
+            }
+        }
+
+        function assignPlayer(peerId, team) {
+            const player = playerData[peerId];
+            if (!player) return;
+
+            // Find next available slot for team
+            const startSlot = team === 1 ? 1 : 4;
+            const endSlot = startSlot + gameConfig.playersPerTeam - 1;
+
+            for (let i = startSlot; i <= endSlot; i++) {
+                if (!Object.values(playerData).some(p => p.slot === i)) {
+                    player.team = team;
+                    player.slot = i;
+                    gameState.teamAssignments[peerId] = i;
+
+                    if (player.stream) {
+                        assignVideoStream(i, player.stream, player.name);
+                    }
+
+                    updateUnassignedList();
+                    broadcastMessage({ type: 'assigned', slot: i, team: team });
+                    return;
+                }
+            }
+
+            alert(`Team ${team} is full!`);
+        }
+
+        function assignVideoStream(slot, stream, name) {
+            const video = document.getElementById(`video${slot}`);
+            const nameLabel = document.getElementById(`name${slot}`);
+            const emptyLabel = document.getElementById(`empty${slot}`);
+
+            video.srcObject = stream;
+            nameLabel.textContent = name;
+            nameLabel.style.display = 'block';
+            emptyLabel.style.display = 'none';
+            video.parentElement.classList.remove('empty');
         }
 
         // Join Game (Player)
         document.getElementById('joinGameBtn').addEventListener('click', async () => {
             const playerName = document.getElementById('playerName').value.trim();
-            
-            if (!playerName) {
+            if (!playerName || !urlHostId) {
                 alert('Please enter your name!');
                 return;
             }
-            
-            if (!urlHostId) {
-                alert('Invalid join link! Please use the link provided by the host.');
-                return;
-            }
 
-            // Show waiting screen
-            document.getElementById('playerJoin').querySelector('.input-group').style.display = 'none';
-            document.getElementById('joinGameBtn').style.display = 'none';
             document.getElementById('playerWaiting').style.display = 'block';
 
-            // Get user media
             try {
-                myStream = await navigator.mediaDevices.getUserMedia({ 
-                    video: true, 
-                    audio: true 
-                });
-                console.log('Got media stream');
+                myStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
             } catch (err) {
-                console.error('Error accessing media devices:', err);
-                alert('Could not access camera/microphone. Please check permissions.');
+                alert('Could not access camera/microphone.');
                 return;
             }
 
-            // Initialize PeerJS
             peer = new Peer();
 
             peer.on('open', (myId) => {
-                console.log('My peer ID:', myId);
-                console.log('Connecting to host:', urlHostId);
-                connectToHost(urlHostId, playerName, myId);
-            });
+                const conn = peer.connect(urlHostId, {
+                    metadata: { playerName: playerName, peerId: myId }
+                });
 
-            peer.on('connection', (conn) => {
-                conn.on('data', (data) => {
-                    handleMessage(data);
+                conn.on('open', () => {
+                    connections.push(conn);
+
+                    const call = peer.call(urlHostId, myStream, {
+                        metadata: { playerName: playerName, peerId: myId }
+                    });
+
+                    call.on('stream', (hostStream) => {
+                        document.getElementById('videoHost').srcObject = hostStream;
+                    });
+
+                    conn.on('data', (data) => handleMessage(data));
                 });
             });
 
             peer.on('call', (call) => {
-                console.log('Incoming call from host');
                 call.answer(myStream);
                 call.on('stream', (remoteStream) => {
-                    console.log('Received host stream');
-                    document.getElementById('videoHost').srcObject = remoteStream;
+                    // Could be host or another player
                 });
-            });
-
-            peer.on('error', (err) => {
-                console.error('Peer error:', err);
-                alert('Connection error: ' + err.type);
             });
         });
-
-        function connectToHost(hostId, playerName, myId) {
-            const conn = peer.connect(hostId, {
-                metadata: { 
-                    playerName: playerName,
-                    peerId: myId
-                }
-            });
-            
-            conn.on('open', () => {
-                console.log('Connected to host!');
-                connections.push(conn);
-                
-                // Make video call
-                const call = peer.call(hostId, myStream, {
-                    metadata: {
-                        playerName: playerName,
-                        peerId: myId,
-                        role: 'player'
-                    }
-                });
-                
-                call.on('stream', (remoteStream) => {
-                    console.log('Received host video stream');
-                    document.getElementById('videoHost').srcObject = remoteStream;
-                    document.getElementById('nameHost').textContent = urlHostName || 'Host';
-                });
-
-                // Listen for messages
-                conn.on('data', (data) => {
-                    handleMessage(data);
-                });
-
-                console.log('Player successfully connected');
-            });
-
-            conn.on('error', (err) => {
-                console.error('Connection error:', err);
-                alert('Failed to connect to host. Please try again or request a new link.');
-            });
-        }
-
-        // Go to Lobby
-        document.getElementById('goToLobbyBtn').addEventListener('click', () => {
-            document.getElementById('setupScreen').style.display = 'none';
-            document.getElementById('lobbyScreen').style.display = 'block';
-            
-            // Set team names in lobby
-            document.getElementById('lobbyTeam1Name').textContent = gameConfig.team1Name.toUpperCase();
-            document.getElementById('lobbyTeam2Name').textContent = gameConfig.team2Name.toUpperCase();
-            
-            // Set host video
-            document.getElementById('videoHost').srcObject = myStream;
-            
-            updateLobby();
-        });
-
-        // Update Lobby
-        function updateLobby() {
-            const unassignedList = document.getElementById('unassignedList');
-            unassignedList.innerHTML = '';
-            
-            // Show unassigned players
-            Object.keys(playerData).forEach(peerId => {
-                const player = playerData[peerId];
-                if (!gameState.teamAssignments[peerId]) {
-                    const slot = document.createElement('div');
-                    slot.className = 'player-slot filled';
-                    slot.innerHTML = `
-                        <span class="player-name-lobby">${player.name}</span>
-                        <div>
-                            <button class="move-btn" onclick="assignToTeam('${peerId}', 1)">→ Team 1</button>
-                            <button class="move-btn" onclick="assignToTeam('${peerId}', 2)">→ Team 2</button>
-                        </div>
-                    `;
-                    unassignedList.appendChild(slot);
-                }
-            });
-            
-            if (unassignedList.children.length === 0) {
-                unassignedList.innerHTML = '<p style="text-align: center; color: var(--text-dim);">All players assigned!</p>';
-            }
-            
-            // Update team slots
-            updateTeamSlots();
-        }
-
-        function assignToTeam(peerId, team) {
-            // Find next available slot for team
-            let slotNumber = null;
-            const startSlot = team === 1 ? 1 : 4;
-            const endSlot = team === 1 ? 3 : 6;
-            
-            for (let i = startSlot; i <= endSlot; i++) {
-                if (!Object.values(gameState.teamAssignments).includes(i)) {
-                    slotNumber = i;
-                    break;
-                }
-            }
-            
-            if (slotNumber) {
-                gameState.teamAssignments[peerId] = slotNumber;
-                playerData[peerId].team = team;
-                updateLobby();
-                broadcastMessage({ type: 'teamAssignment', assignments: gameState.teamAssignments });
-            } else {
-                alert(`Team ${team} is full!`);
-            }
-        }
-
-        function removeFromTeam(peerId) {
-            delete gameState.teamAssignments[peerId];
-            playerData[peerId].team = null;
-            updateLobby();
-            broadcastMessage({ type: 'teamAssignment', assignments: gameState.teamAssignments });
-        }
-
-        function updateTeamSlots() {
-            // Team 1 slots
-            for (let i = 1; i <= 3; i++) {
-                const slotDiv = document.getElementById('team1Slots').children[i-1];
-                const peerId = Object.keys(gameState.teamAssignments).find(id => gameState.teamAssignments[id] === i);
-                
-                if (peerId && playerData[peerId]) {
-                    slotDiv.className = 'player-slot filled';
-                    slotDiv.innerHTML = `
-                        <span class="player-name-lobby">${playerData[peerId].name}</span>
-                        <button class="move-btn" onclick="removeFromTeam('${peerId}')">Remove</button>
-                    `;
-                } else {
-                    slotDiv.className = 'player-slot empty';
-                    slotDiv.innerHTML = `<span class="player-name-lobby">Empty Slot ${i}</span>`;
-                }
-            }
-            
-            // Team 2 slots
-            for (let i = 4; i <= 6; i++) {
-                const slotDiv = document.getElementById('team2Slots').children[i-4];
-                const peerId = Object.keys(gameState.teamAssignments).find(id => gameState.teamAssignments[id] === i);
-                
-                if (peerId && playerData[peerId]) {
-                    slotDiv.className = 'player-slot filled';
-                    slotDiv.innerHTML = `
-                        <span class="player-name-lobby">${playerData[peerId].name}</span>
-                        <button class="move-btn" onclick="removeFromTeam('${peerId}')">Remove</button>
-                    `;
-                } else {
-                    slotDiv.className = 'player-slot empty';
-                    slotDiv.innerHTML = `<span class="player-name-lobby">Empty Slot ${i}</span>`;
-                }
-            }
-        }
-
-        // Start Game
-        document.getElementById('startGameBtn').addEventListener('click', () => {
-            document.getElementById('lobbyScreen').style.display = 'none';
-            document.getElementById('gameScreen').style.display = 'block';
-            document.getElementById('hostControls').style.display = 'block';
-            
-            // Set team names
-            document.getElementById('gameTeam1Name').textContent = gameConfig.team1Name.toUpperCase();
-            document.getElementById('gameTeam2Name').textContent = gameConfig.team2Name.toUpperCase();
-            
-            // Populate category dropdown
-            const categorySelect = document.getElementById('categorySelect');
-            categorySelect.innerHTML = '';
-            gameConfig.categories.forEach(cat => {
-                const option = document.createElement('option');
-                option.value = cat;
-                option.textContent = cat;
-                categorySelect.appendChild(option);
-            });
-            
-            // Place player videos
-            Object.keys(gameState.teamAssignments).forEach(peerId => {
-                const slotNumber = gameState.teamAssignments[peerId];
-                const player = playerData[peerId];
-                
-                if (player && player.stream) {
-                    const video = document.getElementById(`video${slotNumber}`);
-                    const nameLabel = document.getElementById(`name${slotNumber}`);
-                    const emptyLabel = document.getElementById(`empty${slotNumber}`);
-                    const container = video.parentElement;
-                    
-                    video.srcObject = player.stream;
-                    nameLabel.textContent = player.name;
-                    emptyLabel.style.display = 'none';
-                    container.classList.remove('empty');
-                }
-            });
-            
-            setupHostControls();
-            broadcastMessage({ type: 'startGame', config: gameConfig, assignments: gameState.teamAssignments });
-        });
-
-        // Message Handler
-        function handleMessage(data, fromPeerId) {
-            console.log('Received message:', data.type);
-            
-            if (data.type === 'gameConfig') {
-                gameConfig = data.config;
-                console.log('Received game config:', gameConfig);
-            } else if (data.type === 'startGame') {
-                // Player side - transition to game
-                document.getElementById('setupScreen').style.display = 'none';
-                document.getElementById('gameScreen').style.display = 'block';
-                
-                gameConfig = data.config;
-                gameState.teamAssignments = data.assignments;
-                
-                document.getElementById('gameTeam1Name').textContent = gameConfig.team1Name.toUpperCase();
-                document.getElementById('gameTeam2Name').textContent = gameConfig.team2Name.toUpperCase();
-                
-                console.log('Game started!');
-            } else if (data.type === 'gameState') {
-                updateGameState(data.state);
-            } else if (data.type === 'teamAssignment') {
-                gameState.teamAssignments = data.assignments;
-            }
-        }
 
         // Host Controls
         function setupHostControls() {
-            document.getElementById('showQuestionBtn').addEventListener('click', () => {
-                const category = document.getElementById('categorySelect').value;
+            document.getElementById('addToQueueBtn').addEventListener('click', () => {
+                const category = document.getElementById('categoryInput').value.trim();
                 const question = document.getElementById('questionInput').value.trim();
-                
+
                 if (category && question) {
-                    gameState.category = category;
-                    gameState.question = question;
+                    questionQueue.push({ category, question });
+                    updateQueueDisplay();
+                    document.getElementById('categoryInput').value = '';
+                    document.getElementById('questionInput').value = '';
+                }
+            });
+
+            document.getElementById('nextQuestionBtn').addEventListener('click', () => {
+                if (questionQueue.length > 0) {
+                    currentQuestionIndex = (currentQuestionIndex + 1) % questionQueue.length;
+                    const q = questionQueue[currentQuestionIndex];
+                    gameState.category = q.category;
+                    gameState.question = q.question;
                     updateLocalDisplay();
                     broadcastGameState();
                 }
             });
 
             document.getElementById('clearQuestionBtn').addEventListener('click', () => {
-                gameState.category = 'WAITING FOR NEXT QUESTION';
+                gameState.category = '';
                 gameState.question = '';
                 gameState.timerActive = false;
                 updateLocalDisplay();
                 broadcastGameState();
             });
 
-            document.getElementById('startTimerBtn').addEventListener('click', () => {
-                startTimer();
-            });
+            document.getElementById('startTimerBtn').addEventListener('click', startTimer);
 
             document.getElementById('team1PointBtn').addEventListener('click', () => {
                 gameState.team1Score++;
@@ -1579,16 +1031,59 @@
             });
         }
 
+        function updateQueueDisplay() {
+            const container = document.getElementById('queuedQuestions');
+            container.innerHTML = '';
+            questionQueue.forEach((q, i) => {
+                const div = document.createElement('div');
+                div.className = 'queued-question';
+                div.innerHTML = `
+                    <div class="queued-category">${q.category}</div>
+                    <div class="queued-text">${q.question}</div>
+                `;
+                container.appendChild(div);
+            });
+            document.getElementById('queueCount').textContent = questionQueue.length;
+        }
+
         function updateLocalDisplay() {
-            document.getElementById('categoryDisplay').textContent = gameState.category || 'WAITING TO START';
-            document.getElementById('questionDisplay').textContent = gameState.question || 'Get ready for an epic trivia battle!';
-            document.getElementById('team1ScoreHeader').textContent = gameState.team1Score;
-            document.getElementById('team2ScoreHeader').textContent = gameState.team2Score;
-            
-            if (gameState.timerActive) {
-                document.getElementById('timerDisplay').textContent = gameState.timerValue;
-            } else {
-                document.getElementById('timerDisplay').textContent = '';
+            document.getElementById('categoryDisplay').textContent = gameState.category || 'WAITING';
+            document.getElementById('questionDisplay').textContent = gameState.question || 'Ready for trivia?';
+            document.getElementById('team1ScoreDisplay').textContent = gameState.team1Score;
+            document.getElementById('team2ScoreDisplay').textContent = gameState.team2Score;
+            document.getElementById('timerDisplay').textContent = gameState.timerActive ? gameState.timerValue : '';
+        }
+
+        function startTimer() {
+            gameState.timerValue = 30;
+            gameState.timerActive = true;
+            updateLocalDisplay();
+            broadcastGameState();
+
+            const interval = setInterval(() => {
+                gameState.timerValue--;
+                updateLocalDisplay();
+                broadcastGameState();
+
+                if (gameState.timerValue <= 0) {
+                    clearInterval(interval);
+                    gameState.timerActive = false;
+                    updateLocalDisplay();
+                    broadcastGameState();
+                }
+            }, 1000);
+        }
+
+        function handleMessage(data, fromPeerId) {
+            if (data.type === 'gameState') {
+                updateGameState(data.state);
+            } else if (data.type === 'assigned') {
+                // Player was assigned - transition to game
+                document.getElementById('setupScreen').style.display = 'none';
+                document.getElementById('gameScreen').style.display = 'block';
+
+                document.getElementById('team1NameDisplay').textContent = gameConfig.team1Name?.toUpperCase() || 'TEAM 1';
+                document.getElementById('team2NameDisplay').textContent = gameConfig.team2Name?.toUpperCase() || 'TEAM 2';
             }
         }
 
@@ -1598,42 +1093,19 @@
         }
 
         function broadcastGameState() {
-            broadcastMessage({
-                type: 'gameState',
-                state: gameState
-            });
+            broadcastMessage({ type: 'gameState', state: gameState });
         }
 
-        function broadcastMessage(message) {
+        function broadcastMessage(msg) {
             connections.forEach(conn => {
                 if (conn.open) {
                     try {
-                        conn.send(message);
+                        conn.send(msg);
                     } catch (err) {
-                        console.error('Error sending message:', err);
+                        console.error('Send error:', err);
                     }
                 }
             });
-        }
-
-        function startTimer() {
-            gameState.timerValue = 30;
-            gameState.timerActive = true;
-            updateLocalDisplay();
-            broadcastGameState();
-
-            const timerInterval = setInterval(() => {
-                gameState.timerValue--;
-                updateLocalDisplay();
-                broadcastGameState();
-
-                if (gameState.timerValue <= 0) {
-                    clearInterval(timerInterval);
-                    gameState.timerActive = false;
-                    updateLocalDisplay();
-                    broadcastGameState();
-                }
-            }, 1000);
         }
     </script>
 </body>
