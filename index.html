@@ -290,6 +290,7 @@
             color: var(--primary-green);
             margin-bottom: 15px;
             letter-spacing: 2px;
+            text-align: center;
         }
 
         .join-code-display {
@@ -314,7 +315,7 @@
 
         .share-link {
             font-family: 'Inter', monospace;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-light);
             word-break: break-all;
             background: var(--card-bg);
@@ -344,6 +345,34 @@
             font-size: 1.3rem;
             color: var(--accent-yellow);
             font-weight: 600;
+        }
+
+        .waiting-screen {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .waiting-screen h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--card-bg);
+            border-top: 5px solid var(--primary-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* Lobby Screen */
@@ -735,6 +764,10 @@
             .category-grid {
                 grid-template-columns: 1fr;
             }
+
+            .share-link {
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
@@ -764,7 +797,7 @@
             <!-- Host Setup -->
             <div id="hostSetup">
                 <div class="input-group">
-                    <label>Your Name (This becomes the join code)</label>
+                    <label>Your Name</label>
                     <input type="text" id="hostName" placeholder="e.g., Mike">
                 </div>
 
@@ -832,12 +865,9 @@
                 <button class="btn-primary" id="createGameBtn">Create Game</button>
 
                 <div class="join-info" id="hostJoinInfo" style="display: none;">
-                    <h3>🎮 GAME CREATED!</h3>
-                    <p style="text-align: center; margin-bottom: 15px;">Share this join code with players:</p>
-                    <div class="join-code-display" id="joinCodeDisplay" onclick="copyJoinCode()">MIKE</div>
-                    <p style="text-align: center; margin: 15px 0;">OR share this link:</p>
-                    <div class="share-link" id="shareLinkDisplay" onclick="copyShareLink()">Click to copy link</div>
-                    <div class="copy-hint">📋 Click to copy</div>
+                    <h3>🎮 SHARE THIS LINK WITH PLAYERS</h3>
+                    <div class="share-link" id="shareLinkDisplay" onclick="copyShareLink()">Generating link...</div>
+                    <div class="copy-hint">📋 Click to copy • Players use this link to join instantly!</div>
                     <div class="player-count" id="hostPlayerCount">Players Connected: 0/6</div>
                     <button class="btn-primary" id="goToLobbyBtn" style="margin-top: 20px;">GO TO LOBBY</button>
                 </div>
@@ -850,12 +880,13 @@
                     <input type="text" id="playerName" placeholder="Enter your name">
                 </div>
 
-                <div class="input-group">
-                    <label>Host's Name (Join Code)</label>
-                    <input type="text" id="hostJoinCode" placeholder="e.g., Mike">
-                </div>
-
                 <button class="btn-primary" id="joinGameBtn">Join Game</button>
+
+                <div class="waiting-screen" id="playerWaiting" style="display: none;">
+                    <h3>CONNECTING TO HOST...</h3>
+                    <div class="spinner"></div>
+                    <p style="color: var(--text-dim); margin-top: 20px;">Please wait while we connect you to the game</p>
+                </div>
             </div>
         </div>
 
@@ -914,17 +945,17 @@
                 <!-- Team Left -->
                 <div class="team-section">
                     <div class="team-header team-left"><span id="gameTeam1Name">TEAM 1</span> - <span id="team1ScoreHeader">0</span></div>
-                    <div class="video-container team-left">
+                    <div class="video-container team-left empty">
                         <video id="video1" autoplay playsinline></video>
                         <div class="player-name" id="name1">Slot 1</div>
                         <div class="empty-label" id="empty1">WAITING FOR PLAYER</div>
                     </div>
-                    <div class="video-container team-left">
+                    <div class="video-container team-left empty">
                         <video id="video2" autoplay playsinline></video>
                         <div class="player-name" id="name2">Slot 2</div>
                         <div class="empty-label" id="empty2">WAITING FOR PLAYER</div>
                     </div>
-                    <div class="video-container team-left">
+                    <div class="video-container team-left empty">
                         <video id="video3" autoplay playsinline></video>
                         <div class="player-name" id="name3">Slot 3</div>
                         <div class="empty-label" id="empty3">WAITING FOR PLAYER</div>
@@ -948,17 +979,17 @@
                 <!-- Team Right -->
                 <div class="team-section">
                     <div class="team-header team-right"><span id="gameTeam2Name">TEAM 2</span> - <span id="team2ScoreHeader">0</span></div>
-                    <div class="video-container team-right">
+                    <div class="video-container team-right empty">
                         <video id="video4" autoplay playsinline></video>
                         <div class="player-name" id="name4">Slot 4</div>
                         <div class="empty-label" id="empty4">WAITING FOR PLAYER</div>
                     </div>
-                    <div class="video-container team-right">
+                    <div class="video-container team-right empty">
                         <video id="video5" autoplay playsinline></video>
                         <div class="player-name" id="name5">Slot 5</div>
                         <div class="empty-label" id="empty5">WAITING FOR PLAYER</div>
                     </div>
-                    <div class="video-container team-right">
+                    <div class="video-container team-right empty">
                         <video id="video6" autoplay playsinline></video>
                         <div class="player-name" id="name6">Slot 6</div>
                         <div class="empty-label" id="empty6">WAITING FOR PLAYER</div>
@@ -1024,10 +1055,9 @@
         let peer;
         let myStream;
         let connections = [];
-        let playerData = {}; // { peerId: { name, team, stream, conn } }
+        let playerData = {}; // { peerId: { name, stream, conn } }
         let isHost = false;
         let hostPeerId = '';
-        let joinCodeToIdMap = {}; // Maps host names to peer IDs
         let gameState = {
             category: '',
             question: '',
@@ -1043,12 +1073,9 @@
         const urlHostId = urlParams.get('host');
         const urlHostName = urlParams.get('name');
 
+        // If URL has host parameter, auto-switch to player mode
         if (urlHostId) {
-            // Auto-fill from URL
             document.getElementById('playerBtn').click();
-            if (urlHostName) {
-                document.getElementById('hostJoinCode').value = urlHostName;
-            }
         }
 
         // Role Selection
@@ -1077,7 +1104,7 @@
 
         // Create Game (Host)
         document.getElementById('createGameBtn').addEventListener('click', async () => {
-            const hostName = document.getElementById('hostName').value.trim().toUpperCase();
+            const hostName = document.getElementById('hostName').value.trim();
             if (!hostName) {
                 alert('Please enter your name!');
                 return;
@@ -1117,27 +1144,29 @@
 
             peer.on('open', (id) => {
                 hostPeerId = id;
-                joinCodeToIdMap[hostName] = id;
                 
-                // Display join info
-                document.getElementById('joinCodeDisplay').textContent = hostName;
-                
-                const shareLink = `${window.location.href.split('?')[0]}?host=${id}&name=${hostName}`;
+                // Generate shareable link
+                const shareLink = `${window.location.origin}${window.location.pathname}?host=${id}&name=${encodeURIComponent(hostName)}`;
                 document.getElementById('shareLinkDisplay').textContent = shareLink;
                 
                 document.getElementById('hostJoinInfo').style.display = 'block';
                 document.getElementById('createGameBtn').style.display = 'none';
                 
                 document.getElementById('nameHost').textContent = hostName;
+                
+                console.log('Host peer ID:', id);
             });
 
             peer.on('connection', (conn) => {
+                console.log('Incoming connection from:', conn.peer);
                 handlePlayerConnection(conn);
             });
 
             peer.on('call', (call) => {
+                console.log('Incoming call from:', call.peer);
                 call.answer(myStream);
                 call.on('stream', (remoteStream) => {
+                    console.log('Received stream from:', call.peer);
                     const metadata = call.metadata;
                     if (metadata && metadata.peerId) {
                         if (!playerData[metadata.peerId]) {
@@ -1145,23 +1174,18 @@
                         }
                         playerData[metadata.peerId].stream = remoteStream;
                         playerData[metadata.peerId].name = metadata.playerName;
+                        updatePlayerCount();
                     }
                 });
             });
+
+            peer.on('error', (err) => {
+                console.error('Peer error:', err);
+                alert('Connection error: ' + err.type);
+            });
         });
 
-        // Copy functions
-        function copyJoinCode() {
-            const code = document.getElementById('joinCodeDisplay').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                const original = document.getElementById('joinCodeDisplay').textContent;
-                document.getElementById('joinCodeDisplay').textContent = '✓ COPIED!';
-                setTimeout(() => {
-                    document.getElementById('joinCodeDisplay').textContent = original;
-                }, 2000);
-            });
-        }
-
+        // Copy shareable link
         function copyShareLink() {
             const link = document.getElementById('shareLinkDisplay').textContent;
             navigator.clipboard.writeText(link).then(() => {
@@ -1178,12 +1202,14 @@
             connections.push(conn);
             
             conn.on('open', () => {
+                console.log('Connection opened with:', conn.peer);
                 const metadata = conn.metadata;
                 if (metadata) {
                     playerData[conn.peer] = {
                         name: metadata.playerName,
                         conn: conn,
-                        team: null
+                        team: null,
+                        stream: null
                     };
                     
                     updatePlayerCount();
@@ -1193,6 +1219,8 @@
                         type: 'gameConfig',
                         config: gameConfig
                     });
+                    
+                    console.log('Player added:', metadata.playerName);
                 }
             });
 
@@ -1201,31 +1229,41 @@
             });
 
             conn.on('close', () => {
+                console.log('Player disconnected:', conn.peer);
                 delete playerData[conn.peer];
                 updatePlayerCount();
                 updateLobby();
+            });
+
+            conn.on('error', (err) => {
+                console.error('Connection error with player:', err);
             });
         }
 
         function updatePlayerCount() {
             const count = Object.keys(playerData).length;
             document.getElementById('hostPlayerCount').textContent = `Players Connected: ${count}/6`;
+            console.log('Player count updated:', count);
         }
 
         // Join Game (Player)
         document.getElementById('joinGameBtn').addEventListener('click', async () => {
             const playerName = document.getElementById('playerName').value.trim();
-            const joinCode = document.getElementById('hostJoinCode').value.trim().toUpperCase();
             
             if (!playerName) {
                 alert('Please enter your name!');
                 return;
             }
             
-            if (!joinCode) {
-                alert('Please enter the host\'s join code!');
+            if (!urlHostId) {
+                alert('Invalid join link! Please use the link provided by the host.');
                 return;
             }
+
+            // Show waiting screen
+            document.getElementById('playerJoin').querySelector('.input-group').style.display = 'none';
+            document.getElementById('joinGameBtn').style.display = 'none';
+            document.getElementById('playerWaiting').style.display = 'block';
 
             // Get user media
             try {
@@ -1233,6 +1271,7 @@
                     video: true, 
                     audio: true 
                 });
+                console.log('Got media stream');
             } catch (err) {
                 console.error('Error accessing media devices:', err);
                 alert('Could not access camera/microphone. Please check permissions.');
@@ -1243,18 +1282,9 @@
             peer = new Peer();
 
             peer.on('open', (myId) => {
-                // Connect to host using join code or URL parameter
-                let targetHostId = urlHostId || null;
-                
-                // If no URL param, we need to resolve the join code
-                // In a real implementation, you'd need a signaling server
-                // For now, we'll try to connect directly if we have the ID from URL
-                
-                if (targetHostId) {
-                    connectToHost(targetHostId, playerName, myId);
-                } else {
-                    alert('Direct join code lookup requires a signaling server. Please use the shareable link provided by the host!');
-                }
+                console.log('My peer ID:', myId);
+                console.log('Connecting to host:', urlHostId);
+                connectToHost(urlHostId, playerName, myId);
             });
 
             peer.on('connection', (conn) => {
@@ -1264,13 +1294,17 @@
             });
 
             peer.on('call', (call) => {
+                console.log('Incoming call from host');
                 call.answer(myStream);
                 call.on('stream', (remoteStream) => {
-                    // This will be the host's stream or other players
-                    if (call.metadata && call.metadata.role === 'host') {
-                        document.getElementById('videoHost').srcObject = remoteStream;
-                    }
+                    console.log('Received host stream');
+                    document.getElementById('videoHost').srcObject = remoteStream;
                 });
+            });
+
+            peer.on('error', (err) => {
+                console.error('Peer error:', err);
+                alert('Connection error: ' + err.type);
             });
         });
 
@@ -1283,18 +1317,22 @@
             });
             
             conn.on('open', () => {
+                console.log('Connected to host!');
                 connections.push(conn);
                 
                 // Make video call
                 const call = peer.call(hostId, myStream, {
                     metadata: {
                         playerName: playerName,
-                        peerId: myId
+                        peerId: myId,
+                        role: 'player'
                     }
                 });
                 
                 call.on('stream', (remoteStream) => {
+                    console.log('Received host video stream');
                     document.getElementById('videoHost').srcObject = remoteStream;
+                    document.getElementById('nameHost').textContent = urlHostName || 'Host';
                 });
 
                 // Listen for messages
@@ -1302,12 +1340,12 @@
                     handleMessage(data);
                 });
 
-                alert('Connected to host! Waiting for game to start...');
+                console.log('Player successfully connected');
             });
 
             conn.on('error', (err) => {
                 console.error('Connection error:', err);
-                alert('Failed to connect to host. Please use the shareable link provided by the host.');
+                alert('Failed to connect to host. Please try again or request a new link.');
             });
         }
 
@@ -1434,6 +1472,7 @@
             
             // Populate category dropdown
             const categorySelect = document.getElementById('categorySelect');
+            categorySelect.innerHTML = '';
             gameConfig.categories.forEach(cat => {
                 const option = document.createElement('option');
                 option.value = cat;
@@ -1450,11 +1489,12 @@
                     const video = document.getElementById(`video${slotNumber}`);
                     const nameLabel = document.getElementById(`name${slotNumber}`);
                     const emptyLabel = document.getElementById(`empty${slotNumber}`);
+                    const container = video.parentElement;
                     
                     video.srcObject = player.stream;
                     nameLabel.textContent = player.name;
                     emptyLabel.style.display = 'none';
-                    video.parentElement.classList.remove('empty');
+                    container.classList.remove('empty');
                 }
             });
             
@@ -1464,8 +1504,11 @@
 
         // Message Handler
         function handleMessage(data, fromPeerId) {
+            console.log('Received message:', data.type);
+            
             if (data.type === 'gameConfig') {
                 gameConfig = data.config;
+                console.log('Received game config:', gameConfig);
             } else if (data.type === 'startGame') {
                 // Player side - transition to game
                 document.getElementById('setupScreen').style.display = 'none';
@@ -1476,6 +1519,8 @@
                 
                 document.getElementById('gameTeam1Name').textContent = gameConfig.team1Name.toUpperCase();
                 document.getElementById('gameTeam2Name').textContent = gameConfig.team2Name.toUpperCase();
+                
+                console.log('Game started!');
             } else if (data.type === 'gameState') {
                 updateGameState(data.state);
             } else if (data.type === 'teamAssignment') {
@@ -1562,7 +1607,11 @@
         function broadcastMessage(message) {
             connections.forEach(conn => {
                 if (conn.open) {
-                    conn.send(message);
+                    try {
+                        conn.send(message);
+                    } catch (err) {
+                        console.error('Error sending message:', err);
+                    }
                 }
             });
         }
@@ -1585,11 +1634,6 @@
                     broadcastGameState();
                 }
             }, 1000);
-        }
-
-        // Mark empty video containers
-        for (let i = 1; i <= 6; i++) {
-            document.getElementById(`video${i}`).parentElement.classList.add('empty');
         }
     </script>
 </body>
