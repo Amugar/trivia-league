@@ -758,6 +758,7 @@
 
         // Create Game
         document.getElementById('createGameBtn').addEventListener('click', async () => {
+            console.log('Create game clicked');
             const hostName = document.getElementById('hostName').value.trim();
             if (!hostName) {
                 alert('Please enter your name!');
@@ -770,31 +771,75 @@
             gameConfig.playersPerTeam = parseInt(document.getElementById('playersPerTeam').value);
             gameConfig.numQuestions = parseInt(document.getElementById('numQuestions').value) || 12;
 
+            console.log('Game config:', gameConfig);
+
             // Get media
             try {
+                console.log('Requesting media...');
                 myStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                console.log('Media obtained');
             } catch (err) {
-                alert('Could not access camera/microphone.');
+                console.error('Media error:', err);
+                alert('Could not access camera/microphone: ' + err.message);
                 return;
             }
 
             // Initialize peer
-            peer = new Peer();
+            console.log('Initializing peer...');
+            try {
+                peer = new Peer();
+                
+                peer.on('open', (id) => {
+                    console.log('Peer opened with ID:', id);
+                    setupHostGame(id);
+                });
 
-            peer.on('open', (id) => {
-                setupHostGame(id);
-            });
+                peer.on('error', (err) => {
+                    console.error('Peer error:', err);
+                    alert('Connection error: ' + err.type);
+                });
 
-            peer.on('connection', handlePlayerConnection);
-            peer.on('call', handleIncomingCall);
+                peer.on('connection', handlePlayerConnection);
+                peer.on('call', handleIncomingCall);
+            } catch (err) {
+                console.error('Peer initialization error:', err);
+                alert('Failed to initialize connection: ' + err.message);
+            }
         });
 
         function setupHostGame(peerId) {
+            console.log('Setting up host game with peer ID:', peerId);
+            
             // Generate QR code
             const joinUrl = `${window.location.origin}${window.location.pathname}?h=${peerId}`;
-            QRCode.toCanvas(document.getElementById('qrCanvas'), joinUrl, { width: 200 });
+            console.log('Join URL:', joinUrl);
+            
+            try {
+                QRCode.toCanvas(document.getElementById('qrCanvas'), joinUrl, { width: 200 }, (error) => {
+                    if (error) {
+                        console.error('QR Code error:', error);
+                        // Fallback: show URL as text
+                        document.getElementById('qrSection').innerHTML = `
+                            <div style="padding: 15px; word-break: break-all; font-size: 0.8rem; color: #000;">
+                                Share this link:<br>${joinUrl}
+                            </div>
+                        `;
+                    } else {
+                        console.log('QR code generated successfully');
+                    }
+                });
+            } catch (err) {
+                console.error('QR generation failed:', err);
+                // Fallback: show URL as text
+                document.getElementById('qrSection').innerHTML = `
+                    <div style="padding: 15px; word-break: break-all; font-size: 0.8rem; color: #000;">
+                        Share this link:<br>${joinUrl}
+                    </div>
+                `;
+            }
 
             // Show game screen
+            console.log('Transitioning to game screen...');
             document.getElementById('setupScreen').style.display = 'none';
             document.getElementById('gameScreen').style.display = 'block';
             document.getElementById('hostControls').style.display = 'block';
@@ -811,6 +856,7 @@
             hideExtraSlots();
 
             setupHostControls();
+            console.log('Host game setup complete');
         }
 
         function hideExtraSlots() {
